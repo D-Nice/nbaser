@@ -1,0 +1,60 @@
+kind: pipeline
+name: linux-amd64-alpine-latest
+steps:
+- name: test-latest-alpine
+  image: nimlang/nim:latest-alpine
+  commands:
+  # running with -c flag to run through all tests
+  # in case of failures, re-rerun without it to idenitify
+  # first occurrence for easy viewing
+  - nimble test -c || nimble test
+
+---
+kind: pipeline
+name: linux-amd64-ubuntu-latest
+steps:
+- name: test-latest-ubuntu
+  image: nimlang/nim:latest-ubuntu
+  commands:
+  - nimble test -c || nimble test
+
+---
+kind: pipeline
+name: linux-amd64-alpine-0.20.0
+- name: test-0.20.0-alpine
+  image: nimlang/nim:0.20.0-alpine
+  commands:
+  - nimble test -c || nimble test
+
+---
+kind: pipeline
+name: linux-amd64-alpine-0.20.0
+- name: test-0.20.0-ubuntu
+  image: nimlang/nim:0.20.0-ubuntu
+  commands:
+  - nimble test -c || nimble test
+
+---
+kind: pipeline
+name: linux-arm-alpine-latest
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+- name: test-latest-alpine
+  image: nimlang/nim:latest-alpine
+  commands:
+  - nimble test -c || nimble test
+
+---
+kind: pipeline
+name: benchmark
+- name: benchmark
+  image: nimlang/nim:latest-alpine
+  commands:
+  - nimble benchmark
+
+depends_on:
+- linux-amd64-alpine-latest
