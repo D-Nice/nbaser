@@ -35,3 +35,6 @@ base2 32 bytes
 
 - [x] make unicode compatible version
 - [ ] implement code coverage once a non-obtrusive one becomes available for Nim
+- [ ] test performance increase if doing binary search on base lookup table
+- [ ] consider making the table static/predefinining baseAlphabet.toRunes
+outside of the loop (presuming backend or compiler already optimize this)
