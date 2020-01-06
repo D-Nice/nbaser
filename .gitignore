@@ -1,0 +1,10 @@
+# ignore binary files (denoted by no extension)
+*
+!*.*
+!*/
+
+# ignore fuzzer output
+tests/fuzzer/out*
+
+# include fuzzer input
+!*/fuzzer/in*/*
