@@ -28,7 +28,7 @@ proc main(): void =
     # should check any new alphabet
     # can use get if preferable to exception
     checkBaseValidity(alpha)
-  except BaseXError:
+  except NBaserError:
     quit 1
 
   decoded = alpha.decode(input)
