@@ -32,14 +32,13 @@ task docgen, "Generate documentation":
   exec "nim doc2 src/nbaser.nim"
 
 ## checks
-# TODO set to error when stdlib is fixed to pass
-const checkCmd = "nim c -cf -w:on --hints:on --styleCheck:hint -o:/dev/null"
-task check_src, "Compile with all checks on":
+const checkCmd = "nim c -cf -w:on --hints:on -o:/dev/null --styleCheck:"
+task check_src, "Compile src with all checks on":
   for src in srcPaths():
-    exec checkCmd & " " & src
-task check_tests, "Compile with all checks on":
+    exec checkCmd & "error " & src
+task check_tests, "Compile tests with all checks on":
   for test in testPaths():
-    exec checkCmd & " " & test
+    exec checkCmd & "hint " & test
 task check_all, "Compile check everything and run tests":
   exec "nimble check_src; nimble check_tests; nimble test -c"
 
