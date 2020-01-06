@@ -307,7 +307,6 @@ func decode* (
   for i in ldrCtr ..< src.runeLen:
     # lets refer to rune as unicode char here
     let uchar = src.runeAtPos(i)
-    # TODO consider binary search?
     var carry = baseAlphabet.toRunes.find uchar
     ensure carry >= 0,
       "Char`" & $uchar & "` is not one of the supported `" & baseAlphabet & "`",

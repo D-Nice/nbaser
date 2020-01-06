@@ -10,21 +10,7 @@ import nbaser,
 func toHex(ba: openArray[byte]): string =
   result = foldl(ba, a & b.toHex, "")
 
-# TODO leave for initial commit but remove thereafter
-func toBytesOld(s: string): seq[byte] =
-  result = newSeq[byte]((s.len / 2).ceil.int)
-  var i = result.len - 1
-  var evenOffset, oddOffset: int
-  if (i*2+1) < s.len:
-    evenOffset = 1
-  else:
-    oddOffset = 1
-
-  while i >= 0:
-    debugEcho i
-    result[i] = (s[i*2 - oddOffset] & s[i*2 + evenOffset]).parseHexInt.byte
-    i.dec
-
+# convert string char to byte
 func toByte(s: string, i: int): byte =
   const hexMap = "0123456789abcdef"
   result = (hexMap.find(s[i]).shl(4) + hexMap.find(s[i + 1])).byte
