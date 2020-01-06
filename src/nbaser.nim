@@ -11,7 +11,7 @@ import sequtils, math, unicode
 ##
 ## Proceed with caution utilizing any unprintable unicode characters.
 ##
-## The unicode support does slow this implementation down by an order of magnitude than if it just supported ASCII.
+## The unicode support does slow this implementation down by an order of magnitude than if it just supported ASCII. Check the benchmarks to verify whether it will perform sufficiently for your usecase.
 ##
 
 type
@@ -233,16 +233,9 @@ func encode*(
     bx.delete 0
 
   # prepend any leaders and allocate null chars
-  # optimized ascii-only
-  #result = result & leader.repeat(ldrCtr) & newString(bx.len)
   result = result & leader.repeat(ldrCtr)
 
   # turn nbaser bytearray into corresponding chars in result string
-  # optimized ascii-only
-#  var l = ldrCtr
-#  for b in bx:
-#    result[l] = baseAlphabet[b.int]
-#    inc l
   let runeAlphabetSeq = baseAlphabet.toRunes
   for b in bx:
     result.add(runeAlphabetSeq[b.int])
