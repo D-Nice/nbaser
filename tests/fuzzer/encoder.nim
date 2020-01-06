@@ -30,6 +30,6 @@ proc main(): void =
   if getBaseValidity(alpha)[0] == false:
     quit 1
 
-  encoded = alpha.encode(input.toSeqByte)
+  encoded = alpha.encode(input.castToSeqByte)
 
 main()
