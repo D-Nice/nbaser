@@ -3,10 +3,16 @@ on:
   - push
   - pull_request
 jobs:
-  check_src_l:
-    name: check_src@latest
+  check_src:
+    name: check_src@${{ matrix.img }}
     runs-on: ubuntu-latest
-    container: nimlang/nim:latest-alpine
+    strategy:
+      matrix:
+        img:
+          - latest-alpine
+            1.0.4-alpine
+      fail-fast: true
+    container: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
     - run: nimble check_src
