@@ -34,8 +34,10 @@ base2 32 bytes
 ### TODO
 
 - [x] make unicode compatible version
-- [ ] read raw binary data for the encoder fuzz entrypoint
+- [x] read raw binary data for the encoder fuzz entrypoint
+(already does this fine, reading all binary data passed...)
 - [ ] test performance increase if doing binary search on base lookup table
 - [ ] consider making the table static/predefinining baseAlphabet.toRunes
 outside of the loop (presuming backend or compiler already optimize this)
 - [ ] implement code coverage once a non-obtrusive one becomes available for Nim
+- [ ] put this in a TODO.md or make a TODO issue...
