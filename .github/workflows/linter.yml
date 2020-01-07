@@ -3,11 +3,14 @@ on:
   - push
   - pull_request
 jobs:
-  check_src:
-    name: check_src@${{ matrix.img }}
+  nim:
+    name: ${{ matrix.check }}@${{ matrix.img }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        check:
+          - check_src
+          - check_tests
         img:
           - latest-alpine
           - 1.0.4-alpine
@@ -15,5 +18,5 @@ jobs:
     container: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
-    - run: nimble check_src
+    - run: nimble @{{ matrix.check }}
 
