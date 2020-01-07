@@ -1,0 +1,13 @@
+name: linter
+on:
+  - push
+  - pull_request
+jobs:
+  check_src_l:
+    name: check_src@latest
+    runs-on: ubuntu-latest
+    container: nimlang/nim:latest-alpine
+    steps:
+    - uses: actions/checkout@v1
+    - run: nimble check_src
+
