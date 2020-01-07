@@ -1,0 +1,23 @@
+name: benchmarker
+on:
+  push:
+    branches:
+      - master
+      - develop
+jobs:
+  nim:
+    name: benchmark@${{ matrix.img }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        img:
+          - latest-alpine
+          - latest-ubuntu
+          - 1.0.4-alpine
+          - 1.0.4-ubuntu
+      fail-fast: true
+    container: nimlang/nim:${{ matrix.img }}
+    steps:
+    - uses: actions/checkout@v1
+    - run: nimble benchmark
+
