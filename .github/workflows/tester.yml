@@ -15,5 +15,5 @@ jobs:
     container: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
-    - run: nimble test -c | tee /tmp/test.out;
-        cat /tmp/test.out | tail -n1 | grep "Success: All tests passed"
+    - run: "nimble test -c | tee /tmp/test.out;
+      cat /tmp/test.out | tail -n1 | grep 'Success: All tests passed'"
