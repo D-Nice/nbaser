@@ -1,0 +1,19 @@
+name: tester
+on:
+  - push
+  - pull_request
+jobs:
+  nim:
+    name: test@${{ matrix.img }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        img:
+          - latest-alpine
+          - 1.0.4-alpine
+      fail-fast: true
+    container: nimlang/nim:${{ matrix.img }}
+    steps:
+    - uses: actions/checkout@v1
+    - run: nimble test
+
