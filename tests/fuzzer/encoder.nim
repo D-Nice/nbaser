@@ -2,8 +2,7 @@ import
   nbaser,
   ../tests/utils,
   strutils,
-  terminal,
-  sequtils
+  terminal
 
 proc main(): void =
   var alpha = newStringOfCap(256)
