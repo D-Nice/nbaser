@@ -10,7 +10,7 @@ jobs:
       matrix:
         img:
           - latest-alpine
-            1.0.4-alpine
+          - 1.0.4-alpine
       fail-fast: true
     container: nimlang/nim:${{ matrix.img }}
     steps:
