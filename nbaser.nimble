@@ -47,7 +47,7 @@ task benchmark, "Runs built-in benchmark":
   exec "nim c -f --verbosity:0 --hints:off -d:danger --gc:markAndSweep -o:/tmp/nim/nbaser/bench -r tests/benchmark.nim"
 
 ## fuzzing
-task fuzz_decode, "Runs afl on decoder":
+task fuzz_decoder, "Runs afl on decoder":
   exec "nim c -f -o:/tmp/nim/nbaser/decoder tests/fuzzer/decoder.nim && afl-fuzz -t 10 -T \"NBaser Decoder fuzzing\" -i tests/fuzzer/in-decoder/ -o tests/fuzzer/out-decoder/ /tmp/nim/nbaser/decoder"
-task fuzz_encode, "Runs afl on encoder":
+task fuzz_encoder, "Runs afl on encoder":
   exec "nim c -f -o:/tmp/nim/nbaser/encoder tests/fuzzer/encoder.nim && afl-fuzz -t 10 -T \"NBaser Encoder fuzzing\" -i tests/fuzzer/in-encoder/ -o tests/fuzzer/out-encoder/ /tmp/nim/nbaser/encoder"

@@ -1,0 +1,28 @@
+name: benchmarker
+# TODO make it only run on master PR?
+on: push
+jobs:
+  nim:
+    name: fuzz_${{ matrix.coder }}@${{ matrix.img }} for ${{ matrix.to }} secs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        coder:
+          - encoder
+          - decoder
+        img:
+          - latest-alpine
+          #- 1.0.4-alpine
+        to:
+          - 600
+          - 18000
+      fail-fast: true
+    container: nimlang/nim:${{ matrix.img }}
+    steps:
+    - uses: actions/checkout@v1
+    - run: timeout ${{ matrix.to }} nimble fuzz_${{ matrix.coder }} || exit 0; 
+    - run: 'find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -exec echo {} \; -exec xxd {} \;'
+    - run: 'find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec xxd {} \;'
+    - run: ls -1A tests/fuzzer/out-${{ matrix.coder }}/hangs | grep -q .
+    - run: ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q .
+#TODO test if any run fails if it returns as failed
