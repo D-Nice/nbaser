@@ -1,9 +1,11 @@
 name: benchmarker
 on:
-  push:
+  pull_request:
     branches:
       - master
       - develop
+  push:
+    branches: master
 jobs:
   nim:
     name: benchmark@${{ matrix.img }}
