@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - run: apk add --no-cache afl
-    - run: timeout ${{ matrix.to }} nimble fuzz_${{ matrix.coder }} || exit 0; 
+    - run: export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1; timeout ${{ matrix.to }} nimble fuzz_${{ matrix.coder }} || exit 0;
     - run: 'find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -exec echo {} \; -exec xxd {} \;'
     - run: 'find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec xxd {} \;'
     - run: ls -1A tests/fuzzer/out-${{ matrix.coder }}/hangs | grep -q .
