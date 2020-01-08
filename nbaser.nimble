@@ -48,6 +48,6 @@ task benchmark, "Runs built-in benchmark":
 
 ## fuzzing
 task fuzz_decoder, "Runs afl on decoder":
-  exec "nim c -f -o:/tmp/nim/nbaser/decoder tests/fuzzer/decoder.nim && afl-fuzz -t 10 -T \"NBaser Decoder fuzzing\" -i tests/fuzzer/in-decoder/ -o tests/fuzzer/out-decoder/ /tmp/nim/nbaser/decoder"
+  exec "nim c -f -o:/tmp/nim/nbaser/decoder tests/fuzzer/decoder.nim && afl-fuzz -T \"NBaser Decoder fuzzing\" -i tests/fuzzer/in-decoder/ -o tests/fuzzer/out-decoder/ /tmp/nim/nbaser/decoder"
 task fuzz_encoder, "Runs afl on encoder":
-  exec "nim c -f -o:/tmp/nim/nbaser/encoder tests/fuzzer/encoder.nim && afl-fuzz -t 10 -T \"NBaser Encoder fuzzing\" -i tests/fuzzer/in-encoder/ -o tests/fuzzer/out-encoder/ /tmp/nim/nbaser/encoder"
+  exec "nim c -f -o:/tmp/nim/nbaser/encoder tests/fuzzer/encoder.nim && afl-fuzz -T \"NBaser Encoder fuzzing\" -i tests/fuzzer/in-encoder/ -o tests/fuzzer/out-encoder/ /tmp/nim/nbaser/encoder"
