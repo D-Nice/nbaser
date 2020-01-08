@@ -4,8 +4,6 @@ on:
   - pull_request
 jobs:
   nim:
-    name: ${{ matrix.check }}@${{ matrix.img }}
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         check:
@@ -17,8 +15,11 @@ jobs:
         img:
           - latest-alpine
           - 1.0.4-alpine
-      fail-fast: true
-    container: nimlang/nim:${{ matrix.img }}
+      fail-fast: false
+    name: ${{ matrix.check }}@${{ matrix.img }}
+    runs-on: ubuntu-latest
+    container:
+      image: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
     - run: nimble ${{ matrix.check }}

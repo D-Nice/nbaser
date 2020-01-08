@@ -8,8 +8,6 @@ on:
     branches: master
 jobs:
   nim:
-    name: benchmark@${{ matrix.img }}
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         img:
@@ -17,8 +15,11 @@ jobs:
           - latest-ubuntu
           - 1.0.4-alpine
           - 1.0.4-ubuntu
-      fail-fast: true
-    container: nimlang/nim:${{ matrix.img }}
+      fail-fast: false
+    name: benchmark@${{ matrix.img }}
+    runs-on: ubuntu-latest
+    container:
+      image: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
     - run: nimble benchmark

@@ -4,16 +4,18 @@ on:
   - pull_request
 jobs:
   nim:
-    name: test@${{ matrix.img }}
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         img:
           - latest-alpine
           - 1.0.4-alpine
-      fail-fast: true
-    container: nimlang/nim:${{ matrix.img }}
+      fail-fast: false
+    name: test@${{ matrix.img }}
+    runs-on: ubuntu-latest
+    container:
+      image: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
-    - run: "nimble test -c | tee /tmp/test.out;
-      cat /tmp/test.out | tail -n1 | grep 'Success: All tests passed' > /dev/null"
+    - run: |
+        nimble test -c | tee /tmp/test.out
+        cat /tmp/test.out | tail -n1 | grep 'Success: All tests passed' > /dev/null
