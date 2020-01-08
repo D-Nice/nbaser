@@ -35,5 +35,5 @@ jobs:
       run: find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec xxd {} \;
     - name: fuzzer status
       run: |
-        ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q .
+        ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
         ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/hangs | grep -q .
