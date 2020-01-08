@@ -3,20 +3,17 @@ name: fuzzer
 on: push
 jobs:
   nim:
-    name: ${{ matrix.coder }}@${{ matrix.img }} for ${{ matrix.to }} secs
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         coder:
           - encoder
-          - decoder
+          #- decoder
         img:
           - latest-alpine
           #- 1.0.4-alpine
-        to:
-          - 60
-          #- 18000
-      fail-fast: true
+      fail-fast: false
+    name: ${{ matrix.coder }}@${{ matrix.img }}
+    runs-on: ubuntu-latest
     container: nimlang/nim:${{ matrix.img }}
     steps:
     - uses: actions/checkout@v1
@@ -26,9 +23,14 @@ jobs:
         export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
         nimble fuzz_${{ matrix.coder }} &
         sleep 60
-        ps aux
-        pkill nim
-        find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -exec echo {} \; -exec xxd {} \;
-        find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec xxd {} \;
+        #pkill nim
+        touch tests/fuzzer/out-${{ matrix.coder }}/crashes/fakecrash
+        head -c 64 /dev/zero > tests/fuzzer/out-${{ matrix.coder }}/crashes/fakecrash
+    - name: list hangs
+      run: find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -exec echo {} \; -exec xxd {} \;
+    - name: list crashes
+      run: find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec xxd {} \;
+    - name: fuzzer status
+      run: |
         ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q .
         ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/hangs | grep -q .
