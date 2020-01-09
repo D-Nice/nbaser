@@ -31,7 +31,7 @@ jobs:
         sysctl -w kernel.core_pattern=core
         sysctl -w kernel.sched_child_runs_first=1
         echo never > /sys/kernel/mm/transparent_hugepage/enabled
-        chrt --rr 99 nimble fuzz_${{ matrix.coder }} &
+        nimble fuzz_${{ matrix.coder }} &
         sleep 3600
         pkill nim
     - name: list hangs (below 16k)
