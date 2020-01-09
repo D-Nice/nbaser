@@ -35,10 +35,10 @@ jobs:
         sleep 3600
         pkill nim
     - name: list hangs (below 16k)
-      run: find tests/fuzzer/out-${{ matrix.coder}}/hanges -type f -size -16384c -exec echo {} \; -exec curl -F data=@{} https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
+      run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size -16384c -exec echo {} \; -exec curl -F data=@{} https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
       # we won't consider these hangs as failing, as they fail simply due to their large size taking more than 1 sec, being considered therefore a hang
     - name: list hangs (16k & above)
-      run: find tests/fuzzer/out-${{ matrix.coder}}/hanges -type f -size +16383c -exec echo {} \; -exec curl -F data=@{} https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
+      run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size +16383c -exec echo {} \; -exec curl -F data=@{} https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
     - name: list crashes
       run: find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec curl -F data=@{} https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
     - name: fuzzer status
