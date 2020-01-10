@@ -32,7 +32,7 @@ jobs:
         sysctl -w kernel.sched_child_runs_first=1
         echo never > /sys/kernel/mm/transparent_hugepage/enabled
         nimble fuzz_${{ matrix.coder }} &
-        sleep 3600
+        sleep 20000
         pkill nim
     - name: list hangs (below 16k)
       run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size -16384c -exec echo {} \; -exec curl -F data=@{} https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
