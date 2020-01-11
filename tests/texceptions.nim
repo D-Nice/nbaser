@@ -81,19 +81,29 @@ suite "test checkers":
         err: new(InvalidBaseAlphabetError)),
       Fixture(
         args: @[base2, "012"],
-        msg: "Char`2` is not one of the supported `01`",
+        msg: r"Char `\50` is not one of the supported `[48, 49]`",
+        # msg: "Char `\\" & "2".runeAtPos(0).repr & "` is not one of the supported `" & base2.toRuneSeqRepr & "`",
         err: new(UnsupportedCharacterError)),
       Fixture(
         args: @[base2, "1ف0"],
-        msg: "Char`ف` is not one of the supported `01`",
+        msg: r"Char `\1601` is not one of the supported `[48, 49]`",
+        # msg: "Char `\\" & "ف".runeAtPos(0).repr & "` is not one of the supported `" & base2.toRuneSeqRepr & "`",
         err: new(UnsupportedCharacterError)),
       Fixture(
         args: @[base2, "ف01"],
-        msg: "Char`ف` is not one of the supported `01`",
+        msg: r"Char `\1601` is not one of the supported `[48, 49]`",
+        # msg: "Char `\\" & "ف".runeAtPos(0).repr & "` is not one of the supported `" & base2.toRuneSeqRepr & "`",
         err: new(UnsupportedCharacterError)),
       Fixture(
-        args: @[base2utf8, "ف01"],
-        msg: "Char`1` is not one of the supported `0ف`",
+        args: @[base2utf8, "j01"],
+        msg: r"Char `\106` is not one of the supported `[48, 1601]`",
+        # msg: "Char `\\" & "j".runeAtPos(0).repr & "` is not one of the supported `" & base2utf8.toRuneSeqRepr & "`",
+        err: new(UnsupportedCharacterError)),
+      # found by fuzzer, where raiseException msg was early terminated by NULL
+      Fixture(
+        args: @[base2utf8, "0" & 0.char],
+        msg: r"Char `\0` is not one of the supported `[48, 1601]`",
+        # msg: "Char `\\" & ($0.char).runeAtPos(0).repr & "` is not one of the supported `" & base2utf8.toRuneSeqRepr & "`",
         err: new(UnsupportedCharacterError)),
       Fixture(
         args: @[base257],
