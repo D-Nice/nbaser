@@ -1,43 +1,48 @@
 # nbaser
 
-### benchmarks
+Library allowing for consistent and reversible encode/decode
+operations between arbitrary unicode character bases.
+Supports bases from 2 to 256.
 
-OUTDATED ASCII(old non-unicode version) benchmarks
+## Install
 
-on i5-82xx @ 3.9 GHz
-nim v0.20.0
+`$ nimble install nbaser`
 
-base58 32 bytes
-  encode 612566 ops/s
-  decode 1365126 ops/s
+import in your project and use
 
-base2 32 bytes
-  encode 18773 ops/s
-  decode 59958 ops/s
+`nim
+import nbaser
 
-base58 32 bytes
-  encode 636264 ops/s
-  decode 1330023 ops/s
+const bs58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+echo bs58.decode("1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3")
+\#@[0, 252, 145, 111, 33, 58, 61, 127, 19, 105, 49, 61, 95, 163, 15, 97, 104, 249, 68, 106, 45, 17, 33, 166, 54]
+`
 
-base2 32 bytes
-  encode 232449 ops/s
-  decode 76536 ops/s
+## Docs
 
-base58 32 bytes
-  encode 611436 ops/s
-  decode 1280487 ops/s
+Check *DOCS LINK HERE* or nimble.directory hosted docs.
 
-base2 32 bytes
-  encode 218686 ops/s
-  decode 73879 ops/s
+Includes examples.
 
-### TODO
+## Notes
 
-- [x] make unicode compatible version
-- [x] read raw binary data for the encoder fuzz entrypoint
-(already does this fine, reading all binary data passed...)
-- [ ] test performance increase if doing binary search on base lookup table
-- [ ] consider making the table static/predefinining baseAlphabet.toRunes
-outside of the loop (presuming backend or compiler already optimize this)
-- [ ] implement code coverage once a non-obtrusive one becomes available for Nim
-- [ ] put this in a TODO.md or make a TODO issue...
+This library does not support padding, such as that found in "standard"
+base32 and base64.
+
+It utilizes the leading zero compression found in base58, thereby supports it
+and its variants, and does not require padding.
+
+Due to the unicode support, there is quite some performance
+overhead realatively to just supporting ASCII. It results
+in up to an order of magnitude slowdown, but should still
+be fast enough. Check benchmarks
+
+
+## Benchmark
+
+Check the [benchmarker CI task](https://github.com/D-Nice/nbaser/actions?query=workflow%3Abenchmarker+branch%3Amaster)
+for current benchmark numbers.
+
+or to test locally
+
+`$ nimble benchmark`
