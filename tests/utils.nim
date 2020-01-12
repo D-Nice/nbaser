@@ -1,6 +1,7 @@
 import
   sequtils,
-  strutils
+  strutils,
+  unicode
 
 converter castToSeqByte*(s: string): seq[byte] = cast[seq[byte]](s)
 
@@ -23,3 +24,7 @@ func fromHexToBytes*(src: string): seq[byte] =
 
   for i in 0..result.high:
     result[i] = s.toByte(i * 2)
+
+# returns a seq representation of runes, instead of utf8 as $ does
+func toRuneSeqRepr*(s: string): string =
+  result = s.toRunes.repr[0 .. ^2].split("@".runeAtPos(0), 1)[1]

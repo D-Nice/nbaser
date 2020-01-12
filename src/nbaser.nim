@@ -302,7 +302,11 @@ func decode* (
     let uchar = src.runeAtPos(i)
     var carry = baseAlphabet.toRunes.find uchar
     ensure carry >= 0,
-      "Char`" & $uchar & "` is not one of the supported `" & baseAlphabet & "`",
+      "Char `\\" &
+      uchar.repr &
+      "` is not one of the supported `" &
+      baseAlphabet.toRunes.repr[0 .. ^2].split("@".runeAtPos(0), 1)[1] &
+      "`",
       UnsupportedCharacterError
 
     var y = 0
