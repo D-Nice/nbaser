@@ -38,7 +38,13 @@ jobs:
       run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size +16383c -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
     - name: list crashes
       run: find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
-    - name: fuzzer status
+    - if: matrix.coder == encoder
+      name: fuzzer status
       run: |
         ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
         ! find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -size -16384c | grep -q .
+    - if: matrix.coder == decoder
+      name: fuzzer status
+      run: |
+        ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
+        ! find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -size -4096 | grep -q .
