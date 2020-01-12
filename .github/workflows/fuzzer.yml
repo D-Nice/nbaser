@@ -29,7 +29,12 @@ jobs:
         sysctl -w kernel.sched_child_runs_first=1
         echo never > /sys/kernel/mm/transparent_hugepage/enabled
         nimble fuzz_${{ matrix.coder }} &
-        sleep 20000
+    - if: github.ref == 'refs/heads/master'
+      name: wait 4 hours for master
+      run: sleep 16400
+    - name: wait 1 hour and close fuzzer
+      run: |
+        sleep 3600
         pkill nim
     - name: list hangs (below 16k)
       run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size -16384c -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
@@ -39,12 +44,12 @@ jobs:
     - name: list crashes
       run: find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
     - if: matrix.coder == 'encoder'
-      name: fuzzer status
+      name: fuzzer encoder status
       run: |
         ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
         ! find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -size -16384c | grep -q .
     - if: matrix.coder == 'decoder'
-      name: fuzzer status
+      name: fuzzer decoder status
       run: |
         ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
         ! find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -size -4096c | grep -q .
