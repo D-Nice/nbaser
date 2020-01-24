@@ -40,7 +40,11 @@ type
     proc(a: string, b: openArray[byte], c: bool = false): string {.inline.} |
     # decode
     proc(a, b: string, c: bool = false): seq[byte] {.inline.}
-    ## Type for any exported nbaser functions
+    ## Type for any exported nbaser functions.
+    ##
+    ## *NOTE*: This is not a mutually exclusive check. Outside procs
+    ## could match one of these signatures. This was mostly for internal
+    ## use, so beware of this caveat if deciding to use it.
 
 
 # for easily running some checks and raising exception if they are not met.
