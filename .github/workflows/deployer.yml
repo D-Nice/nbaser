@@ -20,6 +20,6 @@ jobs:
         mv -f docs/theindex.html docs/index.html
     - uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.DNICE_BOT_TOKEN }}
         BRANCH: gh-pages
         FOLDER: docs
