@@ -3,33 +3,47 @@
 version       = "1.0.0"
 author        = "D-Nice"
 description   = "Encoder/decoder for any base alphabet up to 256 with leading zero compression"
-license       = "MIT"
+license       = "Apache-2.0"
 srcDir        = "src"
 
 # Dependencies
 requires "nim >= 1.0.0"
 
-
 # Nimscript Tasks
 import sugar, sequtils, strutils
-
 
 func srcPaths: seq[string] =
   const dirs =
     @[
       "src/"
     ]
-
   for dir in dirs:
     result.add(dir.listFiles.filter(x => x[dir.len .. x.high].endsWith(".nim")))
+    for subdir in dir.listDirs:
+      result.add(subdir.listFiles.filter(x => x[subdir.len .. x.high].endsWith(".nim")))
 
 func testPaths: seq[string] =
   const dir = "tests/"
   return dir.listFiles.filter(x => x[dir.len .. x.high].startsWith('t'))
 
 ## docs
-task docgen, "Generate documentation":
-  exec "nim doc2 src/nbaser.nim"
+task docs, "Deploy doc html + search index to public/ directory":
+  let
+    deployDir = projectDir() & "/public/"
+    docOutBaseName = "index"
+    deployHtmlFile = deployDir & docOutBaseName & ".html"
+    gitUrl = "https://github.com/D-Nice/nbaser"
+    gitCommit = "develop"
+    genDocCmd = "nim doc --out:$1 --index:on --git.url:$3 --git.commit:$4 $2" % [deployHtmlFile, srcPaths()[0], gitUrl, gitCommit]
+    genTheIndexCmd = "nim buildIndex -o:$1/theindex.html $1" % [deployDir]
+    deployJsFile = deployDir & "dochack.js"
+    docHackJsSource = "https://nim-lang.github.io/Nim/dochack.js" # devel docs dochack.js
+  mkDir(deployDir)
+  exec(genDocCmd)
+  exec(genTheIndexCmd)
+  if not fileExists(deployJsFile):
+    withDir deployDir:
+      exec("curl -LO " & docHackJsSource)
 
 ## checks
 const checkCmd = "nim c -cf -w:on --hints:on -o:/dev/null --styleCheck:"
