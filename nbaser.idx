@@ -1,0 +1,11 @@
+NBaserError	index.html#NBaserError	nbaser: NBaserError	
+InvalidBaseSizeError	index.html#InvalidBaseSizeError	nbaser: InvalidBaseSizeError	
+InvalidBaseAlphabetError	index.html#InvalidBaseAlphabetError	nbaser: InvalidBaseAlphabetError	
+UnsupportedCharacterError	index.html#UnsupportedCharacterError	nbaser: UnsupportedCharacterError	
+NonZeroCarryError	index.html#NonZeroCarryError	nbaser: NonZeroCarryError	
+NBaserProc	index.html#NBaserProc	nbaser: NBaserProc	
+checkBaseValidity	index.html#checkBaseValidity,string	nbaser: checkBaseValidity(baseAlphabet: string): void	
+getBaseValidity	index.html#getBaseValidity,string	nbaser: getBaseValidity(baseAlphabet: string): (bool, string)	
+isBaseValid	index.html#isBaseValid,string	nbaser: isBaseValid(baseAlphabet: string): bool	
+encode	index.html#encode,string,openArray[byte],bool	nbaser: encode(baseAlphabet: string; src: openArray[byte]; checkBase: bool = false): string	
+decode	index.html#decode,string,string,bool	nbaser: decode(baseAlphabet: string; src: string; checkBase: bool = false): seq[byte]	
