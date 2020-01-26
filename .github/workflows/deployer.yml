@@ -1,0 +1,22 @@
+name: deployer
+on:
+  push:
+    branches:
+    - master
+jobs:
+  deploy:
+    name: gh-pages
+    runs-on: ubuntu-latest
+    container:
+      image: nimlang/nim:latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build docs
+      run: |
+        apt-get update && apt-get install -y rsync curl
+        nimble docs
+    - uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.DNICE_BOT_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: public

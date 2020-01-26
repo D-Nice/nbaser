@@ -29,7 +29,7 @@ echo bs58.decode("1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3")
 
 ## Docs
 
-Check *nimble.directory hosted docs*.
+Available @ <https://d-nice.github.io/nbaser/>
 
 Includes examples.
 
