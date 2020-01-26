@@ -19,8 +19,6 @@ func srcPaths: seq[string] =
     ]
   for dir in dirs:
     result.add(dir.listFiles.filter(x => x[dir.len .. x.high].endsWith(".nim")))
-    for subdir in dir.listDirs:
-      result.add(subdir.listFiles.filter(x => x[subdir.len .. x.high].endsWith(".nim")))
 
 func testPaths: seq[string] =
   const dir = "tests/"
@@ -33,8 +31,7 @@ task docs, "Deploy doc html + search index to public/ directory":
     docOutBaseName = "index"
     deployHtmlFile = deployDir & docOutBaseName & ".html"
     gitUrl = "https://github.com/D-Nice/nbaser"
-    gitCommit = "develop"
-    genDocCmd = "nim doc --out:$1 --index:on --git.url:$3 --git.commit:$4 $2" % [deployHtmlFile, srcPaths()[0], gitUrl, gitCommit]
+    genDocCmd = "nim doc --out:$1 --index:on --git.url:$2 $3" % [deployHtmlFile, gitUrl, srcPaths()[0]]
     genTheIndexCmd = "nim buildIndex -o:$1/theindex.html $1" % [deployDir]
     deployJsFile = deployDir & "dochack.js"
     docHackJsSource = "https://nim-lang.github.io/Nim/dochack.js" # devel docs dochack.js
