@@ -301,15 +301,17 @@ func decode* (
   var b256 = newSeq[byte](size)
   b256.shallow
 
+  let runedAlphabet = baseAlphabet.toRunes
+
   for i in ldrCtr ..< src.runeLen:
     # lets refer to rune as unicode char here
     let uchar = src.runeAtPos(i)
-    var carry = baseAlphabet.toRunes.find uchar
+    var carry = runedAlphabet.find uchar
     ensure carry >= 0,
       "Char `\\" &
       uchar.repr &
       "` is not one of the supported `" &
-      baseAlphabet.toRunes.repr[0 .. ^2].split("@".runeAtPos(0), 1)[1] &
+      runedAlphabet.repr[0 .. ^2].split("@".runeAtPos(0), 1)[1] &
       "`",
       UnsupportedCharacterError
 
