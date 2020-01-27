@@ -944,7 +944,9 @@ class="link-seesrc" target="_blank">Source</a>
     <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">byte</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-Type for any exported nbaser functions
+<p>Type for any exported nbaser functions.</p>
+<p><em>NOTE</em>: This is not a mutually exclusive check. Outside procs could match one of these signatures. This was mostly for internal use, so beware of this caveat if deciding to use it.</p>
+
 &nbsp;&nbsp;<a
 href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L32"
 class="link-seesrc" target="_blank">Source</a>
@@ -971,9 +973,9 @@ class="link-seesrc" target="_blank">Source</a>
 <span class="Keyword">except</span><span class="Other">:</span>
   <span class="Keyword">discard</span></pre>
 &nbsp;&nbsp;<a
-href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L61"
+href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L65"
 class="link-seesrc" target="_blank">Source</a>
-<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L61" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L65" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <a id="getBaseValidity,string"></a>
@@ -1004,9 +1006,9 @@ class="link-seesrc" target="_blank">Source</a>
     <span class="Other">(</span><span class="Identifier">false</span><span class="Other">,</span> <span class="StringLit">&quot;maximum base size is 256&quot;</span><span class="Other">)</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">getBaseValidity</span><span class="Other">(</span><span class="StringLit">&quot;abcdefABCDEF01~.,&quot;</span><span class="Other">)</span> <span class="Operator">==</span> <span class="Other">(</span><span class="Identifier">true</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">)</span></pre>
 &nbsp;&nbsp;<a
-href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L92"
+href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L96"
 class="link-seesrc" target="_blank">Source</a>
-<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L92" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L96" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <a id="isBaseValid,string"></a>
@@ -1036,9 +1038,9 @@ class="link-seesrc" target="_blank">Source</a>
 <span class="Identifier">doAssert</span> <span class="Identifier">isBaseValid</span><span class="Other">(</span><span class="Identifier">unicode257Chars</span><span class="Other">)</span> <span class="Operator">==</span> <span class="Identifier">false</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">isBaseValid</span><span class="Other">(</span><span class="StringLit">&quot;abcdefABCDEF01~.,&quot;</span><span class="Other">)</span> <span class="Operator">==</span> <span class="Identifier">true</span></pre>
 &nbsp;&nbsp;<a
-href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L119"
+href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L123"
 class="link-seesrc" target="_blank">Source</a>
-<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L119" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L123" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <a id="encode,string,openArray[byte],bool"></a>
@@ -1075,9 +1077,9 @@ class="link-seesrc" target="_blank">Source</a>
 <span class="Identifier">expect</span> <span class="Identifier">InvalidBaseAlphabetError</span><span class="Other">:</span>
   <span class="Keyword">discard</span> <span class="Identifier">invalidBase</span><span class="Other">.</span><span class="Identifier">encode</span><span class="Other">(</span><span class="Operator">@</span><span class="Other">[</span><span class="Identifier">byte</span> <span class="DecNumber">0</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">true</span><span class="Other">)</span></pre>
 &nbsp;&nbsp;<a
-href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L151"
+href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L155"
 class="link-seesrc" target="_blank">Source</a>
-<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L151" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L155" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 <a id="decode,string,string,bool"></a>
@@ -1113,9 +1115,9 @@ class="link-seesrc" target="_blank">Source</a>
 <span class="Identifier">expect</span> <span class="Identifier">InvalidBaseAlphabetError</span><span class="Other">:</span>
   <span class="Keyword">discard</span> <span class="Identifier">invalidBase</span><span class="Other">.</span><span class="Identifier">decode</span><span class="Other">(</span><span class="StringLit">&quot;0&quot;</span><span class="Other">,</span> <span class="Identifier">true</span><span class="Other">)</span></pre>
 &nbsp;&nbsp;<a
-href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L243"
+href="https://github.com/D-Nice/nbaser/tree/master/src/nbaser.nim#L247"
 class="link-seesrc" target="_blank">Source</a>
-<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L243" class="link-seesrc" target="_blank" >Edit</a>
+<a href="https://github.com/D-Nice/nbaser/edit/devel/src/nbaser.nim#L247" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 
@@ -1128,7 +1130,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2020-01-26 22:27:10 UTC</small>
+        <small>Made with Nim. Generated: 2020-01-27 00:49:17 UTC</small>
       </div>
     </div>
   </div>
