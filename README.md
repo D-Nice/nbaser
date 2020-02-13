@@ -1,5 +1,13 @@
 # nbaser
 
+[![nimble](https://raw.githubusercontent.com/yglukhov/nimble-tag/master/nimble.png)](https://nimble.directory/pkg/nbaser)
+
+[![tester](https://github.com/D-Nice/nbaser/workflows/tester/badge.svg)](https://github.com/D-Nice/nbaser/actions?query=workflow%3Atester+branch%3Amaster)
+[![linter](https://github.com/D-Nice/nbaser/workflows/linter/badge.svg)](https://github.com/D-Nice/nbaser/actions?query=workflow%3Alinter+branch%3Amaster)
+[![GitHub deployments](https://img.shields.io/github/deployments/d-nice/nbaser/github-pages?label=docs&style=plastic)](https://github.com/D-Nice/nbaser/deployments?environment=github-pages#activity-log)
+[![GitHub file size in bytes](https://img.shields.io/github/size/D-Nice/nbaser/src/nbaser.nim?style=plastic)](https://github.com/D-Nice/nbaser/blob/master/src/nbaser.nim)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/d-nice/nbaser?label=version&style=plastic)](https://github.com/D-Nice/nbaser/releases)
+
 Library allowing for consistent and reversible encode/decode
 operations between arbitrary unicode character bases.
 Supports bases from 2 to 256.
