@@ -5,7 +5,10 @@ on:
       - master
       - develop
   push:
-    branches: master
+    branches:
+      - master
+  schedule:
+    - cron: 5 5 7 * * # run every 7th of the month at 05:05
 jobs:
   nim:
     strategy:
