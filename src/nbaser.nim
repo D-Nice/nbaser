@@ -56,15 +56,16 @@ template ensure(
   if unlikely condition == false:
     raise exception.newException errorMsg
 
-func setupBaseVars(baseAlphabet: string):
-  tuple[base: int, leader: Rune] {.inline.} =
-
+{.push inline.}
+func setupBaseVars(
+  baseAlphabet: string
+): tuple[base: int, leader: Rune] =
   result.base = baseAlphabet.runeLen
   result.leader = baseAlphabet.runeAtPos(0)
 
-func checkBaseValidity*(baseAlphabet: string):
-  void {.inline
-  raises: [NBaserError].} =
+func checkBaseValidity*(
+  baseAlphabet: string
+) {.raises: [NBaserError].} =
   ## Runs sanity checks on the passed `baseAlphabet`.
   ##
   ## Raises a NBaserError (one of InvalidBaseSizeError or
@@ -93,8 +94,9 @@ func checkBaseValidity*(baseAlphabet: string):
     "alphabet must not have any char dupes",
     InvalidBaseAlphabetError
 
-func getBaseValidity*(baseAlphabet: string):
-  (bool, string) {.inline.} =
+func getBaseValidity*(
+  baseAlphabet: string
+): (bool, string) =
   ## Runs sanity checks on the passed `baseAlphabet`.
   ##
   ## Returns a tuple containing a boolean indicating the validity (true
@@ -120,8 +122,9 @@ func getBaseValidity*(baseAlphabet: string):
     return (false, e.msg)
   return (true, "")
 
-func isBaseValid*(baseAlphabet: string):
-  bool {.inline.} =
+func isBaseValid*(
+  baseAlphabet: string
+): bool =
   ## Functional alias of `getBaseValidity <#getBaseValidity,string,bool>`_.
   ## Omits fetching of exception message.
   ## Should be run before any base switch,
@@ -152,12 +155,13 @@ func isBaseValid*(baseAlphabet: string):
     return false
   return true
 
+{.push raises: [NBaserError].}
+
 func encode*(
   baseAlphabet: string,
   src: openArray[byte],
-  checkBase: bool = false):
-  string {.inline,
-  raises: [NBaserError].} =
+  checkBase: bool = false
+): string =
   ## Takes a `baseAlphabet` string to convert `src` bytes into the
   ## representative string for the base passed.
   ##
@@ -247,9 +251,8 @@ func encode*(
 func decode* (
   baseAlphabet: string,
   src: string,
-  checkBase: bool = false):
-  seq[byte] {.inline
-  raises: [NBaserError].} =
+  checkBase: bool = false
+): seq[byte] =
   ## Takes a `baseAlphabet` string to convert `src` string into representative
   ## bytes from the base.
   ## Accepts optional `checkBase` bool which is off by default, on whether
@@ -339,3 +342,6 @@ func decode* (
   # prepend any leaders
   b256.insert newSeq[byte](ldrCtr)
   result = b256
+
+# pop the raise and inline
+{.pop pop.}
