@@ -59,6 +59,6 @@ It utilizes the leading zero compression found in base58, thereby supports it
 and its variants, and does not require padding.
 
 Due to the unicode support, there is quite some performance
-overhead realatively to just supporting ASCII. It results
+overhead relatively to just supporting ASCII. It results
 in up to an order of magnitude slowdown, but should still
 be fast enough. Check [benchmarks](#benchmark).
