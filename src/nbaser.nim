@@ -155,23 +155,6 @@ func isBaseValid*(
     return false
   return true
 
-converter toRuneDec(
-  r: Rune
-): uint32 =
-  ## Converter function for representing runes into decimal equivalents of
-  ## their code points, aiding with comprehension in cases where there may be
-  ## non-printable characters present.
-  cast[uint32](r)
-
-converter toRunesDec(
-  rs: seq[Rune]
-): seq[uint32] =
-  ## Converter function for representing seq runes into decimal equivalents of
-  ## their code points, aiding with comprehension in cases where there may be
-  ## non-printable characters present.
-  for r in rs:
-    result.add r.toRuneDec
-
 {.push raises: [NBaserError].}
 
 func encode*(
@@ -327,11 +310,16 @@ func decode* (
     # lets refer to rune as unicode char here
     let uchar = src.runeAtPos(i)
     var carry = runedAlphabet.find uchar
+    # the potential error message here will print the decimal code
+    # point representation of each character, to aid in the case
+    # of any non-printable or even null char identification and
+    # avoid an issue the fuzzer found where usage of a null char
+    # could cut off the message
     ensure carry >= 0,
       "Char `\\" &
-      $(uchar.toRuneDec) &
+      $(uchar.uint32) &
       "` is not one of the supported `" &
-      $(runedAlphabet.toRunesDec) &
+      $(cast[seq[uint32]](runedAlphabet)) &
       "`",
       UnsupportedCharacterError
 
