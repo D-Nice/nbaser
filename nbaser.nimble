@@ -1,6 +1,6 @@
 
 # Package
-version       = "1.0.0"
+version       = "1.0.1"
 author        = "D-Nice"
 description   = "Encoder/decoder for any base alphabet up to 256 with leading zero compression"
 license       = "Apache-2.0"
