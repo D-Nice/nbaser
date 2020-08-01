@@ -3,7 +3,9 @@ on:
   pull_request:
     branches:
       - master
-      - develop
+  push:
+    branches:
+      - master
 jobs:
   nim:
     strategy:
@@ -16,40 +18,48 @@ jobs:
           - 1.0.4-alpine
       fail-fast: false
     name: ${{ matrix.coder }}@${{ matrix.img }}
+    env:
+      dir_hang: tests/fuzzer/out-${{ matrix.coder}}/hangs
+      dir_crash: tests/fuzzer/out-${{ matrix.coder}}/crashes
     runs-on: ubuntu-latest
     container:
       image: nimlang/nim:${{ matrix.img }}
       options: --privileged
     steps:
     - uses: actions/checkout@v1
-    - name: fuzz_${{ matrix.coder }}
-      run: |
-        apk add --no-cache afl util-linux
+    - name: install fuzzing tools
+      run: apk add --no-cache afl util-linux
+    - name: configure system for fuzzing
+      run : |
         sysctl -w kernel.core_pattern=core
         sysctl -w kernel.sched_child_runs_first=1
         echo never > /sys/kernel/mm/transparent_hugepage/enabled
-        nimble fuzz_${{ matrix.coder }} &
     - if: github.ref == 'refs/heads/master'
-      name: wait 4 hours for master
-      run: sleep 16400
-    - name: wait 1 hour and close fuzzer
+      name: fuzz_${{ matrix.coder }} for 4 hours
       run: |
-        sleep 3600
-        pkill nim
+        nimble fuzz_${{ matrix.coder }} &
+        sleep 14400 # apparently cant go to another run step anymore without this getting paused in background
+    - if: github.ref != 'refs/heads/master'
+      name: fuzz_${{ matrix.coder }}  for 15 minutes
+      run: |
+        nimble fuzz_${{ matrix.coder }} &
+        sleep 900
+    - name: close fuzzer
+      run: pkill nim
     - name: list hangs (below 16k)
-      run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size -16384c -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
+      run: find $dir_hang -type f -size -16384c -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
       # we won't consider these hangs as failing, as they fail simply due to their large size taking more than 1 sec, being considered therefore a hang
     - name: list hangs (16k & above)
-      run: find tests/fuzzer/out-${{ matrix.coder}}/hangs -type f -size +16383c -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
+      run: find $dir_hang -type f -size +16383c -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
     - name: list crashes
-      run: find tests/fuzzer/out-${{ matrix.coder }}/crashes -type f -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
+      run: find $dir_crash -type f -exec echo {} \; -exec curl -F data=@\"{}\" https://ipfs.infura.io:5001/api/v0/add \; -exec xxd {} \;
     - if: matrix.coder == 'encoder'
       name: fuzzer encoder status
       run: |
-        ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
-        ! find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -size -16384c | grep -q .
+        ! ls -1A $dir_crash | grep -q . &&
+        ! find $dir_hang -type f -size -16384c | grep -q .
     - if: matrix.coder == 'decoder'
       name: fuzzer decoder status
       run: |
-        ! ls -1A tests/fuzzer/out-${{ matrix.coder }}/crashes | grep -q . &&
-        ! find tests/fuzzer/out-${{ matrix.coder }}/hangs -type f -size -4096c | grep -q .
+        ! ls -1A $dir_crash | grep -q . &&
+        ! find $dir_hang -type f -size -4096c | grep -q .
